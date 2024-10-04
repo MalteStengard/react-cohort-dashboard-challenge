@@ -13,6 +13,7 @@ body {
   padding: 20px;
   position: fixed;
   top: 0;
+  left: 0; /* Ensure the header touches the left side */
   width: 100%;
   z-index: 1000; 
   display: flex;
@@ -44,6 +45,7 @@ body {
 .left-menu {
   width: 200px;
   background-color: #ffffff;
+  /* height: calc(100% - 80px); */
 }
 
 .post-list {
@@ -93,7 +95,7 @@ button:hover {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 20px 0;
+  margin: 100px 20px 20px 20px; /* Adjust based on header height */
 }
 
 .input-button-container input {
