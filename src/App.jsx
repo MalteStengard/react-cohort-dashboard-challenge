@@ -5,6 +5,7 @@ import PostList from "./components/PostList";
 import LeftMenu from "./components/LeftMenu";
 import Header from "./components/NavBar";
 import PostDetails from "./components/PostDetails";
+import UserProfile from "./components/UserProfile";
 
 const Context = createContext();
 
@@ -12,6 +13,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
+  const [newPostContent, setNewPostContent] = useState("");
 
   const navigate = useNavigate();
 
@@ -94,6 +96,17 @@ function App() {
     fetchUsers();
   }, []);
 
+  const handleCreatePost = () => {
+    const newPost = {
+      id: posts.length + 1, 
+      contactId: 1, 
+      content: newPostContent,
+      title: "New Post" 
+    };
+    setPosts([newPost, ...posts]);
+    setNewPostContent(""); 
+  };
+
   console.log(posts);
   return (
     <Context.Provider
@@ -109,10 +122,15 @@ function App() {
     >
         <Header />
         <div className="input-button-container">
-          <input type="text" placeholder="Write your post here..." />
+          <input
+            type="text"
+            placeholder="Write your post here..."
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+          />
           <button
             id="create-post-button"
-            onClick={() => handleNavigation("/createpost")}
+            onClick={handleCreatePost}
           >
             Post
           </button>
@@ -122,6 +140,7 @@ function App() {
           <Routes>
             <Route path="/" element={<PostList />} />
             <Route path="/post/:id" element={<PostDetails />} />
+            <Route path="/profile/:id" element={<UserProfile />} />
           </Routes>
         </div>
     </Context.Provider>

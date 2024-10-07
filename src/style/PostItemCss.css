@@ -71,4 +71,38 @@
     font-size: 0.8em;
     margin-right: 8px;
   }
+
+  .comment-input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+  }
+  
+  .comment-input-container input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  
+  .comment-input-container button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .comment-input-container button:hover {
+    background-color: #0056b3;
+  }
+
+  .profile-container-header {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+  
   

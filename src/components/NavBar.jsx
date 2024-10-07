@@ -1,4 +1,30 @@
+import { useContext } from "react";
+import { Context } from "../App";
+import { Link } from "react-router-dom";
+import "../style/PostItemCSS.css";
+
 const Header = () => {
+  const { users } = useContext(Context);
+
+  const getUserDetails = () => {
+    const user = users.find((user) => user.id === 1);
+    if (user) {
+      const firstName = user.firstName;
+      const lastName = user.lastName;
+      const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`;
+      const profileColor = user.favouriteColour;
+      return { firstName, lastName, initials, profileColor };
+    }
+    return {
+      firstName: "Unknown",
+      lastName: "User",
+      initials: "UU",
+      profileColor: "#ccc",
+    };
+  };
+
+  const userDetails = getUserDetails();
+
   return (
     <header className="header">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 356 56">
@@ -11,6 +37,14 @@ const Header = () => {
           d="M36.068 22.934H13.07c-.618 0-1.122.505-1.122 1.122v1.122c0 .617.504 1.122 1.121 1.122h23c.616 0 1.121-.505 1.121-1.122v-1.122c0-.617-.505-1.122-1.122-1.122ZM19.38 19.568h10.378c.617 0 1.121-.505 1.121-1.122v-1.122c0-.617-.505-1.121-1.122-1.121H19.38c-.617 0-1.122.505-1.122 1.122v1.121c0 .617.505 1.122 1.122 1.122Zm10.378 10.097H19.38c-.617 0-1.122.505-1.122 1.122v1.122c0 .617.505 1.122 1.122 1.122h10.378c.617 0 1.121-.505 1.121-1.122v-1.122c0-.617-.505-1.122-1.122-1.122Z"
         />
       </svg>
+      <div className="profile-container-header">
+        <div
+          className="profile-image"
+          style={{ backgroundColor: userDetails.profileColor }}
+        >
+          <Link to={`/profile/1`}>{userDetails.initials}</Link>
+        </div>
+      </div>
     </header>
   );
 };

@@ -11,12 +11,10 @@ export default function PostDetails() {
   const [postComments, setPostComments] = useState([]);
 
   useEffect(() => {
-    // Fetch the post details
     const post = posts.find(post => post.id == id);
     if (post) {
       setPost(post);
 
-      // Fetch user details
       const user = users.find(user => user.id == post.contactId);
       if (user) {
         const firstName = user.firstName;
@@ -26,7 +24,6 @@ export default function PostDetails() {
         setUserDetails({ firstName, lastName, initials, profileColor });
       }
 
-      // Fetch comments for the post
       const commentsForPost = comments.filter(comment => comment.postId == id);
       setPostComments(commentsForPost);
     }
