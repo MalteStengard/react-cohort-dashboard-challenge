@@ -4,6 +4,7 @@ import { useNavigate, Route, Routes } from "react-router-dom";
 import PostList from "./components/PostList";
 import LeftMenu from "./components/LeftMenu";
 import Header from "./components/NavBar";
+import PostDetails from "./components/PostDetails";
 
 const Context = createContext();
 
@@ -46,19 +47,36 @@ function App() {
             const response = await fetch(
               `https://boolean-uk-api-server.fly.dev/MalteStengard/post/${post.id}/comment`
             );
-            return response.json();
+            if (!response.ok) {
+              throw new Error(`Failed to fetch comments for post ${post.id}`);
+            }
+            const data = await response.json();
+            return { postId: post.id, comments: data };
           })
         );
-        setComments((prevComments) => [...prevComments, ...commentsData]);
+        console.log("commentsData", commentsData);
+  
+        const newComments = commentsData.flatMap(post => post.comments.map(comment => ({
+          ...comment,
+          postId: post.postId
+        })));
+  
+        setComments((prevComments) => {
+          const existingCommentIds = new Set(prevComments.map(comment => comment.id));
+          const uniqueNewComments = newComments.filter(comment => !existingCommentIds.has(comment.id));
+          return [...prevComments, ...uniqueNewComments];
+        });
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
     };
-
-    fetchPostComments();
+  
+    if (posts.length > 0) {
+      fetchPostComments();
+    }
   }, [posts]);
 
-  console.log("comments " + posts);
+  console.log("comments " + comments);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -89,7 +107,6 @@ function App() {
         handleNavigation,
       }}
     >
-      <>
         <Header />
         <div className="input-button-container">
           <input type="text" placeholder="Write your post here..." />
@@ -99,25 +116,14 @@ function App() {
           >
             Post
           </button>
-          {/* <button
-            id="create-comment-button"
-            onClick={() => handleNavigation("/createcomment")}
-          ></button> */}
         </div>
         <div className="layout">
           <LeftMenu />
-          <PostList />
+          <Routes>
+            <Route path="/" element={<PostList />} />
+            <Route path="/post/:id" element={<PostDetails />} />
+          </Routes>
         </div>
-      </>
-      <div className="container">
-        <div>
-          <p>hello</p>
-        </div>
-        <Routes>
-          <Route path="/" element={<PostList />} />
-          <Route path="/" element={<LeftMenu />} />
-        </Routes>
-      </div>
     </Context.Provider>
   );
 }

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Context } from "../App";
-// import "../style/LeftMenuCSS.css";
+import "../style/LeftMenuCSS.css";
 
 export default function LeftMenu() {
   const { handleNavigation } = useContext(Context);

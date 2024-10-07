@@ -53,6 +53,7 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column; 
+  list-style-type: none;
 }
 
 #create-post-button {
